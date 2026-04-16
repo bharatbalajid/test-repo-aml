@@ -1,206 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SAR/STR Explained for Kids</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f9f9ff;
-      margin: 20px;
-      padding: 20px;
-    }
-    h1, h2, h3 {
-      color: #2c3e50;
-    }
-    h1 {
-      text-align: center;
-    }
-    .card {
-      background: #ffffff;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    .emoji {
-      font-size: 1.2em;
-    }
-    ul {
-      margin-left: 20px;
-    }
-    code {
-      background: #eee;
-      padding: 5px;
-      display: block;
-      border-radius: 5px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-    }
-    .highlight {
-      color: red;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>SAR/STR Kids App</title>
+
+<style>
+body {
+  font-family: 'Comic Sans MS', cursive;
+  background: linear-gradient(to right, #e0f7fa, #fce4ec);
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  display: none;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #388e3c;
+}
+
+.highlight {
+  color: red;
+  font-weight: bold;
+}
+
+.fade {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
 </head>
 <body>
 
-<h1>🚨 SAR/STR Explained for Kids! 🚨</h1>
+<h1>🚨 SAR/STR Fun Learning App 🚨</h1>
 
-<div class="card">
-  <h2>What is SAR or STR?</h2>
+<!-- Navigation Buttons -->
+<button onclick="showSection('intro')">🏠 Intro</button>
+<button onclick="showSection('story')">📖 Story</button>
+<button onclick="showSection('examples')">🎮 Examples</button>
+<button onclick="showSection('quiz')">🧠 Quiz</button>
+
+<!-- Intro -->
+<div id="intro" class="card fade">
+  <h2>What is SAR/STR?</h2>
   <p><b>SAR</b> = Suspicious Activity Report</p>
   <p><b>STR</b> = Suspicious Transaction Report</p>
-  <p>These are like <b>"ALERT!"</b> messages when something fishy 🐟 happens with money.</p>
+  <p>It means: <span class="highlight">"Something fishy is happening!" 🐟</span></p>
+
+  <button onclick="alert('Great! You are learning fast 🚀')">👍 Got it!</button>
 </div>
 
-<div class="card">
-  <h2>🤔 What Does Suspicious Mean?</h2>
-  <p>Something that feels <b>weird or wrong</b> 👣</p>
-</div>
-
-<div class="card">
+<!-- Story -->
+<div id="story" class="card fade">
   <h2>🏦 Lemonade Stand Story</h2>
 
-  <h3>😊 Normal Kid</h3>
-  <ul>
-    <li>Saves $10 regularly</li>
-    <li>Everything looks normal ✅</li>
-  </ul>
+  <p>😊 Normal Kid: Saves small money regularly</p>
+  <p>😕 Suspicious Kid: Suddenly brings $500 😲</p>
 
-  <h3>😕 Suspicious Kid</h3>
-  <ul>
-    <li>Suddenly brings $500 🚨</li>
-    <li>Secretive and nervous 👀</li>
-    <li>Comes at night 🌙</li>
-  </ul>
+  <button onclick="showAlert()">🚨 What should the bank do?</button>
 
-  <p><b>Bank Manager:</b> "This is weird! Let me report it!" 📋</p>
+  <p id="storyResult"></p>
 </div>
 
-<div class="card">
-  <h2>🚗 Car Wash Example</h2>
-  <ul>
-    <li>Same person comes daily</li>
-    <li>Pays $99 repeatedly</li>
-    <li>Never collects car</li>
-  </ul>
-  <p class="highlight">🚨 Red Flag: Breaking big money into small pieces</p>
+<!-- Examples -->
+<div id="examples" class="card fade">
+  <h2>🎮 Click to Reveal Examples</h2>
+
+  <button onclick="showExample('pizza')">🍕 Pizza Case</button>
+  <button onclick="showExample('game')">🎮 Game Store</button>
+  <button onclick="showExample('toy')">🧸 Toy Store</button>
+
+  <p id="exampleText"></p>
 </div>
 
-<div class="card">
-  <h2>🔍 Red Flags</h2>
+<!-- Quiz -->
+<div id="quiz" class="card fade">
+  <h2>🧠 Quick Quiz</h2>
 
-  <h3>💰 Money Patterns</h3>
-  <ul>
-    <li>Structuring (splitting money)</li>
-    <li>Round-tripping (in & out quickly)</li>
-    <li>Sudden large deposits</li>
-    <li>Odd timings</li>
-  </ul>
+  <p>Someone deposits ₹999 again and again. Is it suspicious?</p>
 
-  <h3>👤 Customer Behavior</h3>
-  <ul>
-    <li>Unknown source of money</li>
-    <li>Different behavior</li>
-    <li>Hidden identity 🕵️</li>
-  </ul>
+  <button onclick="quizAnswer(true)">YES 🚨</button>
+  <button onclick="quizAnswer(false)">NO 😊</button>
+
+  <p id="quizResult"></p>
 </div>
 
-<div class="card">
-  <h2>⚖️ Who Does What?</h2>
-  <ul>
-    <li>🏦 Bank → Detects & reports</li>
-    <li>🚔 Police → Investigates</li>
-    <li>⚖️ Lawyers → Ensure rules</li>
-  </ul>
-</div>
+<script>
+function showSection(id) {
+  let sections = document.querySelectorAll('.card');
+  sections.forEach(sec => sec.style.display = 'none');
 
-<div class="card">
-  <h2>🌍 Countries Rules</h2>
-  <ul>
-    <li>🇬🇧 UK → SAR → 7 days</li>
-    <li>🇪🇺 Europe → STR → 2-10 days</li>
-    <li>🇺🇸 USA → SAR → 30 days</li>
-  </ul>
-</div>
+  document.getElementById(id).style.display = 'block';
+}
 
-<div class="card">
-  <h2>🎮 Examples</h2>
+// Story interaction
+function showAlert() {
+  document.getElementById("storyResult").innerHTML =
+    "✅ Correct! Bank should send a SAR/STR report 🚔";
+}
 
-  <h3>🍕 Pizza Shop</h3>
-  <p>1000 pizzas ordered but not picked up 🚨</p>
+// Examples interaction
+function showExample(type) {
+  let text = "";
 
-  <h3>🎮 Game Store</h3>
-  <p>Many small purchases to hide big money 🚨</p>
+  if (type === "pizza") {
+    text = "🚨 1000 pizzas ordered but never picked up!";
+  } else if (type === "game") {
+    text = "🚨 Many small purchases to hide big money!";
+  } else {
+    text = "🚨 Same toy sold repeatedly to move money secretly!";
+  }
 
-  <h3>🧸 Toy Store</h3>
-  <p>Same toy sold repeatedly at higher prices 🚨</p>
-</div>
+  document.getElementById("exampleText").innerHTML = text;
+}
 
-<div class="card">
-  <h2>🎯 Super Simple Flow</h2>
-  <code>
-💰 Bank sees weird activity  
-↓  
-🚨 Red flag  
-↓  
-📋 Report  
-↓  
-🚔 Police investigate  
-↓  
-⚖️ Action
-  </code>
-</div>
+// Quiz interaction
+function quizAnswer(ans) {
+  if (ans) {
+    document.getElementById("quizResult").innerHTML =
+      "🎉 Correct! This is called STRUCTURING!";
+  } else {
+    document.getElementById("quizResult").innerHTML =
+      "❌ Nope! That's suspicious!";
+  }
+}
 
-<div class="card">
-  <h2>🎓 Big Words Made Simple</h2>
-  <table>
-    <tr>
-      <th>Big Word</th>
-      <th>Simple Meaning</th>
-    </tr>
-    <tr>
-      <td>Suspicious</td>
-      <td>Weird</td>
-    </tr>
-    <tr>
-      <td>Structuring</td>
-      <td>Breaking money</td>
-    </tr>
-    <tr>
-      <td>Transaction</td>
-      <td>Money movement</td>
-    </tr>
-    <tr>
-      <td>Red Flag</td>
-      <td>Warning 🚨</td>
-    </tr>
-  </table>
-</div>
-
-<div class="card">
-  <h2>🎉 Final Message</h2>
-  <p><b>Banks are like superheroes 🦸</b></p>
-  <ul>
-    <li>Spot problems 👀</li>
-    <li>Report issues 📋</li>
-    <li>Help stop bad guys 🚔</li>
-  </ul>
-
-  <p><b>Golden Rule:</b> If something feels weird, tell a grown-up!</p>
-</div>
+// Show intro by default
+showSection('intro');
+</script>
 
 </body>
 </html>
