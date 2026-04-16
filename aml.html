@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SAR/STR Kids App</title>
+<title>SAR/STR Game 🎮</title>
 
 <style>
 body {
   font-family: 'Comic Sans MS', cursive;
-  background: linear-gradient(to right, #e0f7fa, #fce4ec);
+  background: linear-gradient(to right, #e1f5fe, #fce4ec);
   text-align: center;
   padding: 20px;
 }
@@ -28,137 +28,145 @@ h1 {
   width: 80%;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  display: none;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 20px;
   margin: 10px;
   border: none;
   border-radius: 10px;
-  background: #4caf50;
+  background: #2196f3;
   color: white;
   cursor: pointer;
   font-size: 16px;
 }
 
 button:hover {
-  background: #388e3c;
+  background: #1976d2;
 }
 
-.highlight {
-  color: red;
+.scoreboard {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.result {
   font-weight: bold;
-}
-
-.fade {
-  animation: fadeIn 1s;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  margin-top: 10px;
 }
 </style>
 
 </head>
 <body>
 
-<h1>🚨 SAR/STR Fun Learning App 🚨</h1>
+<h1>🚨 SAR/STR Game 🎮</h1>
 
-<!-- Navigation Buttons -->
-<button onclick="showSection('intro')">🏠 Intro</button>
-<button onclick="showSection('story')">📖 Story</button>
-<button onclick="showSection('examples')">🎮 Examples</button>
-<button onclick="showSection('quiz')">🧠 Quiz</button>
-
-<!-- Intro -->
-<div id="intro" class="card fade">
-  <h2>What is SAR/STR?</h2>
-  <p><b>SAR</b> = Suspicious Activity Report</p>
-  <p><b>STR</b> = Suspicious Transaction Report</p>
-  <p>It means: <span class="highlight">"Something fishy is happening!" 🐟</span></p>
-
-  <button onclick="alert('Great! You are learning fast 🚀')">👍 Got it!</button>
+<div class="scoreboard">
+  ⭐ Score: <span id="score">0</span> |
+  🎯 Level: <span id="level">1</span>
 </div>
 
-<!-- Story -->
-<div id="story" class="card fade">
-  <h2>🏦 Lemonade Stand Story</h2>
+<div class="card">
+  <h2 id="question">Loading...</h2>
 
-  <p>😊 Normal Kid: Saves small money regularly</p>
-  <p>😕 Suspicious Kid: Suddenly brings $500 😲</p>
+  <button onclick="answer(true)">🚨 Suspicious</button>
+  <button onclick="answer(false)">😊 Normal</button>
 
-  <button onclick="showAlert()">🚨 What should the bank do?</button>
-
-  <p id="storyResult"></p>
+  <p id="result" class="result"></p>
 </div>
 
-<!-- Examples -->
-<div id="examples" class="card fade">
-  <h2>🎮 Click to Reveal Examples</h2>
-
-  <button onclick="showExample('pizza')">🍕 Pizza Case</button>
-  <button onclick="showExample('game')">🎮 Game Store</button>
-  <button onclick="showExample('toy')">🧸 Toy Store</button>
-
-  <p id="exampleText"></p>
-</div>
-
-<!-- Quiz -->
-<div id="quiz" class="card fade">
-  <h2>🧠 Quick Quiz</h2>
-
-  <p>Someone deposits ₹999 again and again. Is it suspicious?</p>
-
-  <button onclick="quizAnswer(true)">YES 🚨</button>
-  <button onclick="quizAnswer(false)">NO 😊</button>
-
-  <p id="quizResult"></p>
-</div>
+<!-- Sounds -->
+<audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3"></audio>
+<audio id="correctSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c1e0d8d1b.mp3"></audio>
+<audio id="wrongSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2d4d6f7b6f.mp3"></audio>
+<audio id="levelUpSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3f2c1c7c8f.mp3"></audio>
 
 <script>
-function showSection(id) {
-  let sections = document.querySelectorAll('.card');
-  sections.forEach(sec => sec.style.display = 'none');
+let score = 0;
+let level = 1;
+let currentQ = 0;
 
-  document.getElementById(id).style.display = 'block';
+const questions = [
+  { q: "Kid saves ₹50 every week", a: false },
+  { q: "Someone deposits ₹999 again and again", a: true },
+  { q: "Money comes from unknown person", a: true },
+  { q: "You get pocket money from parents", a: false },
+  { q: "Money goes in and out immediately", a: true },
+  { q: "Regular salary deposit", a: false }
+];
+
+function playSound(id) {
+  document.getElementById(id).currentTime = 0;
+  document.getElementById(id).play();
 }
 
-// Story interaction
-function showAlert() {
-  document.getElementById("storyResult").innerHTML =
-    "✅ Correct! Bank should send a SAR/STR report 🚔";
+function loadQuestion() {
+  document.getElementById("question").innerText = questions[currentQ].q;
+  document.getElementById("result").innerText = "";
 }
 
-// Examples interaction
-function showExample(type) {
-  let text = "";
+function answer(userAns) {
+  playSound("clickSound");
 
-  if (type === "pizza") {
-    text = "🚨 1000 pizzas ordered but never picked up!";
-  } else if (type === "game") {
-    text = "🚨 Many small purchases to hide big money!";
+  let correct = questions[currentQ].a;
+
+  if (userAns === correct) {
+    score++;
+    playSound("correctSound");
+    document.getElementById("result").innerText = "🎉 Correct!";
   } else {
-    text = "🚨 Same toy sold repeatedly to move money secretly!";
+    playSound("wrongSound");
+    document.getElementById("result").innerText = "❌ Wrong!";
   }
 
-  document.getElementById("exampleText").innerHTML = text;
-}
+  currentQ++;
 
-// Quiz interaction
-function quizAnswer(ans) {
-  if (ans) {
-    document.getElementById("quizResult").innerHTML =
-      "🎉 Correct! This is called STRUCTURING!";
-  } else {
-    document.getElementById("quizResult").innerHTML =
-      "❌ Nope! That's suspicious!";
+  // Level up every 3 questions
+  if (currentQ % 3 === 0) {
+    level++;
+    playSound("levelUpSound");
   }
+
+  if (currentQ >= questions.length) {
+    endGame();
+  } else {
+    setTimeout(loadQuestion, 1000);
+  }
+
+  updateUI();
 }
 
-// Show intro by default
-showSection('intro');
+function updateUI() {
+  document.getElementById("score").innerText = score;
+  document.getElementById("level").innerText = level;
+}
+
+function endGame() {
+  document.querySelector(".card").innerHTML = `
+    <h2>🏆 Game Over!</h2>
+    <p>Your Score: ${score}</p>
+    <button onclick="restart()">🔄 Restart</button>
+  `;
+}
+
+function restart() {
+  score = 0;
+  level = 1;
+  currentQ = 0;
+
+  document.querySelector(".card").innerHTML = `
+    <h2 id="question"></h2>
+    <button onclick="answer(true)">🚨 Suspicious</button>
+    <button onclick="answer(false)">😊 Normal</button>
+    <p id="result" class="result"></p>
+  `;
+
+  updateUI();
+  loadQuestion();
+}
+
+// Start game
+loadQuestion();
 </script>
 
 </body>
